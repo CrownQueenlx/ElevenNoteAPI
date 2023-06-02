@@ -31,11 +31,32 @@ namespace ElevenNote.Services.User
             };
             var passwordHasher = new PasswordHasher<UserEntity>();
             entity.Password = passwordHasher.HashPassword(entity, model.Password);
-            
+
             _context.Users.Add(entity);
             var numberOfChanges = await _context.SaveChangesAsync();
             return numberOfChanges == 1;
         }
+
+            public async Task<UserDetail?> GetUserByIdAsync(int userId) // Take in UserId
+            {
+                var entity = await _context.Users.FindAsync(userId);
+                if (entity is null)
+                return null;
+
+                UserDetail detail = new()
+                {
+                    Id = entity.Id,
+                    Email = entity.Email,
+                    UserName = entity.UserName,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    DateCreated = entity.DateCreated
+                };
+                return detail;
+            }
+// Query DB and verify
+// Package info into new Model
+// Return new model
 
         private async Task<UserEntity?> GetUserByEmailAsync(string email)
         {
@@ -47,13 +68,14 @@ namespace ElevenNote.Services.User
             
         }
 
-
-
 //         public Task<bool> Find = RegisterUserAsync (UserEntity.UserName) => != null :
 //         { return true;}
 // if (Find == true) {return UserName.value
 //     } else
 // {
 //     create Username = new UserName
+// ----------------------------------------
+
+
 }
 }
