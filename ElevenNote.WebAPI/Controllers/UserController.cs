@@ -32,7 +32,8 @@ namespace ElevenNote.WebAPI.Controllers
             if (registerResult)
             {
                 return Ok("User was registered.");
-            }   else
+            }
+            else
             {
                 return BadRequest("User could not be registered.");
             }
@@ -40,12 +41,12 @@ namespace ElevenNote.WebAPI.Controllers
         [HttpGet("{userId:int}")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)
         {
-            var userDetail = await _service.GetUserByIdAsync(userId);
-            if (userDetail is null)
+            var UserDetail = await _service.GetUserByIdAsync(userId);
+            if (UserDetail is null) //"==" same as "is"
             {
-            return NotFound();
+                return NotFound();
+            }
+            return Ok(UserDetail);
         }
-            return Ok(userDetail);
-        } 
     }
 }

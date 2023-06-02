@@ -22,10 +22,10 @@ namespace ElevenNote.Data.Entities
         public string Password { get; set; }
 
         // First Name
-        public string FirstName { get; set; } 
+        public string? FirstName { get; set; } 
 
         // Last Name
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         // Registration (datetime) 
         [Required]
