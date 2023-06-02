@@ -11,24 +11,25 @@ namespace ElevenNote.Data.Entities
         // Email
         [Required]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         // Username
         [Required]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
 
         // Password
         [Required]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
         // First Name
-        public string? NameName { get; set; }
+        public string NameName { get; set; } 
 
         // Last Name
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         // Registration (datetime) 
         [Required]
         public DateTime DateCreated { get; set; }
     }
+    
 }

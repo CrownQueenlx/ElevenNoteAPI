@@ -1,4 +1,5 @@
 using ElevenNote.Data;
+using ElevenNote.Services.User;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-       
+// Add User Service/Interface for Dependency Injection here
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -30,6 +32,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-        //Add connection string and DBContext setup
 
