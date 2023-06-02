@@ -18,7 +18,7 @@ namespace ElevenNote.WebAPI.Controllers
         {
             _service = service;
         }
-        
+
         //1.method support, 2.route
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegister model)
@@ -37,5 +37,15 @@ namespace ElevenNote.WebAPI.Controllers
                 return BadRequest("User could not be registered.");
             }
         }
+        [HttpGet("{userId:int}")]
+        public async Task<IActionResult> GetUserById([FromRoute] int userId)
+        {
+            var userDetail = await _service.GetUserByIdAsync(userId);
+            if (userDetail is null)
+            {
+            return NotFound();
+        }
+            return Ok(userDetail);
+        } 
     }
 }
