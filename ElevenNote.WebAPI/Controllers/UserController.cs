@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ElevenNote.Models.User;
+using ElevenNote.Services.Token;
 using ElevenNote.Services.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +15,12 @@ namespace ElevenNote.WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _service;
-        public UserController(IUserService service)
+        private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
+        public UserController(IUserService userService, ITokenService tokenService)
         {
-            _service = service;
+            _userService = userService;
+            _tokenService = tokenService;
         }
 
         //1.method support, 2.route
@@ -28,7 +32,7 @@ namespace ElevenNote.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var registerResult = await _service.RegisterUserAsync(model);
+            var registerResult = await _userService.RegisterUserAsync(model);
             if (registerResult)
             {
                 return Ok("User was registered.");
@@ -38,10 +42,11 @@ namespace ElevenNote.WebAPI.Controllers
                 return BadRequest("User could not be registered.");
             }
         }
+        [Authorize]
         [HttpGet("{userId:int}")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)
         {
-            var UserDetail = await _service.GetUserByIdAsync(userId);
+            var UserDetail = await _userService.GetUserByIdAsync(userId);
             if (UserDetail is null) //"==" same as "is"
             {
                 return NotFound();
