@@ -14,5 +14,11 @@ namespace ElevenNote.WebAPI.Controllers
         {
             _noteService = noteService;
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllNotes()
+        {
+            var notes = await _noteService.GetAllNotesAsync();
+            return Ok(notes);
+        }
     }
 }
