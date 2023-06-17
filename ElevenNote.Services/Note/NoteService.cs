@@ -30,7 +30,7 @@ public class NoteService : INoteService
 
             Title = request.Title,
             Content = request.Content,
-            CreatedUtc = DateTimeOffset.Now,
+            CreatedUtc = DateTime.Now,
             OwnerId = _userId
         };
 
@@ -64,6 +64,25 @@ public class NoteService : INoteService
         .ToListAsync();
 
         return notes;
+    }
+    public async Task<NoteDetail?> GetNoteByIdAsync(int noteId)
+    {
+        // Find the first note that has the given Id
+        // and an OwnerId htat matches the requesting _userId
+        var noteEntity = await _dbContext.Notes
+        .FirstOrDefaultAsync(e =>
+        e.Id == noteId && e.OwnerId == _userId
+        );
+        // If noteEntity is null then return null
+        // Otherwise initialize and reutrn a new NoteDetail
+        return noteEntity is null ? null : new NoteDetail
+        {
+            Id = noteEntity.Id,
+            Title = noteEntity.Title,
+            Content = noteEntity.Content,
+            CreatedUtc = noteEntity.CreatedUtc,
+            ModifiedUtc = noteEntity.ModifiedUtc
+        };
     }
 
 

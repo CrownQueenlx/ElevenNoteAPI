@@ -21,8 +21,8 @@ namespace ElevenNote.Data.Entities
         public string Content { get; set; } = string.Empty;
         // string.empty gives defalt value, will never be null
         [Required]
-        public DateTimeOffset CreatedUtc { get; set; }
-        public DateTimeOffset? ModifiedUtc { get; set; } //Coordinated Universal Time
+        public DateTime CreatedUtc { get; set; }
+        public DateTime? ModifiedUtc { get; set; } //Coordinated Universal Time
        
     }
 }
