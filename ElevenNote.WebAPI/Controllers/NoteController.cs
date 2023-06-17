@@ -1,3 +1,4 @@
+using ElevenNote.Models.Note;
 using ElevenNote.Services.Note;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,18 @@ namespace ElevenNote.WebAPI.Controllers
         public NoteController(INoteService noteService)
         {
             _noteService = noteService;
+        }
+        // POST api Note
+        [HttpPost]
+        public async Task<IActionResult> CreateNote([FromBody] NoteCreate request)
+        {
+            if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+            var response = await _noteService.CreateNoteAsync(request);
+            if (response is not null)
+            return Ok(response);
+
+            return BadRequest("Could not create Note.");
         }
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
