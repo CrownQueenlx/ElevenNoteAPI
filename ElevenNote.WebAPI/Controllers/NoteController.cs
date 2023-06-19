@@ -17,6 +17,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
         // POST api Note
         [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<NoteCreate>), 200)]
         public async Task<IActionResult> CreateNote([FromBody] NoteCreate request)
         {
             if (!ModelState.IsValid)
@@ -28,6 +29,7 @@ namespace ElevenNote.WebAPI.Controllers
             return BadRequest("Could not create Note.");
         }
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
         public async Task<IActionResult> GetAllNotes()
         {
             var notes = await _noteService.GetAllNotesAsync();
@@ -36,6 +38,8 @@ namespace ElevenNote.WebAPI.Controllers
         }
         // GET api/Note/5
         [HttpGet("{noteId:int}")]
+        [ProducesResponseType(typeof(IEnumerable<NoteDetail>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<NoteDetail>), 400)]
         public async Task<IActionResult> GetNoteById([FromRoute] int noteId)
         {
             var detail = await _noteService.GetNoteByIdAsync(noteId);
@@ -50,6 +54,7 @@ namespace ElevenNote.WebAPI.Controllers
 
         // PUT api/Note
         [HttpPut]
+        [ProducesResponseType(typeof(IEnumerable<NoteUpdate>), 200)]
         public async Task<IActionResult> UpdateNoteById([FromBody] NoteUpdate request)
         {
             if (!ModelState.IsValid)
@@ -61,6 +66,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
         // DELETE api/Note/5
         [HttpDelete("{noteId:int}")]
+        [ProducesResponseType(typeof(IEnumerable<NoteUpdate>), 200)]
         public async Task<IActionResult> DeleteNote([FromRoute] int noteId)
         {
             return await _noteService.DeleteNoteAsync(noteId)

@@ -7,22 +7,22 @@ namespace ElevenNote.Models.User
         // Email
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         // Username
         [Required]
         [MinLength(4)]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
 
         // Password
         [Required]
         [MinLength(4)]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         [Required]
         [Compare(nameof(Password))]
         // Confirm Password
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = string.Empty;
 
     }
 }
