@@ -15,7 +15,7 @@ public class NoteService : INoteService
     {
         var userClaims = httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
         var value = userClaims?.FindFirst("Id")?.Value;
-        var validId = int.TryParse(value, out _userId);
+        var validId = int.TryParse(value, out _userId); //this is setting as a field
         if (!validId)
             throw new Exception("Attempted to build NoteService without User Id claim.");
 
@@ -37,7 +37,7 @@ public class NoteService : INoteService
         _dbContext.Notes.Add(noteEntity);
         var numberOfChanges = await _dbContext.SaveChangesAsync();
 
-        if(numberOfChanges == 1)
+        if (numberOfChanges == 1)
         {
             NoteListItem response = new()
             {
@@ -92,7 +92,7 @@ public class NoteService : INoteService
         // by using the null conditional operator we can check if it's null 
         //  and at the same time we check the OwnerId vs the _userId
         if (noteEntity?.OwnerId != _userId)
-        return false;
+            return false;
 
         // Now we update the entity's properties
         noteEntity.Title = request.Title;
@@ -114,9 +114,9 @@ public class NoteService : INoteService
         if (noteEntity?.OwnerId != _userId)
             return false;
 
-            // Remove the note from the DbContext and assert that the one change was saved
-            _dbContext.Notes.Remove(noteEntity);
-            return await _dbContext.SaveChangesAsync() == 1;
+        // Remove the note from the DbContext and assert that the one change was saved
+        _dbContext.Notes.Remove(noteEntity);
+        return await _dbContext.SaveChangesAsync() == 1;
     }
 
 
